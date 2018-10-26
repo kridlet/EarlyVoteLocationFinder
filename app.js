@@ -48,6 +48,7 @@ const markers = [];
 let closest = [];
 
 function initialize() {
+  alert('Let\'s find your closest early voting location. To do this you will need to allow us to access your current location. Please allow this when asked. We are only using this information to help find the closest voting location.');
   geocoder = new google.maps.Geocoder();
 
   const map = new google.maps.Map(document.getElementsByClassName('map')[0], {
@@ -67,7 +68,6 @@ function initialize() {
   const bounds = new google.maps.LatLngBounds();
 
   for (i = 0; i < earlyVoteLocations.length; i++) {
-    let pt = new google.maps.LatLng(earlyVoteLocations[i][5], earlyVoteLocations[i][6]);
     marker = new google.maps.Marker({
       position: {
         lat: earlyVoteLocations[i][5],
@@ -133,11 +133,11 @@ function findClosestN(map, bounds, pt, numberOfResults) {
   closest.unshift(new google.maps.Marker({
     position: pt,
     map: map,
-    icon: 'http://maps.google.com/mapfiles/kml/pushpin/grn-pushpin.png',
+    icon: 'https://maps.google.com/mapfiles/kml/pushpin/grn-pushpin.png',
     html: "You Are Here"
   }));
   const closestArr = closest.splice(0, numberOfResults + 1);
-  console.log(closestArr.length);
+  // console.log(closestArr.length);
   for (i = 0; i < closestArr.length; i++) {
     console.log(closestArr[i].getPosition().lat());
     closestArr[i].setMap(map);
