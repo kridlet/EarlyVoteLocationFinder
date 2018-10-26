@@ -90,38 +90,42 @@ function initialize() {
 }
 
 function getDeviceLocation(map, bounds, infoWindow, findClosestN) {
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(function (position) {
-      var pos = {
-        lat: position.coords.latitude,
-        lng: position.coords.longitude
-      };
-      // var pos = {
-      //   lat: 32.771772,
-      //   lng: -97.309259
-      // };
-      findClosestN(map, bounds, pos, numResults);
-    }, function () {
-      // handleLocationError(true, infoWindow, map.getCenter());
-      alert('error - permission denied');
-    });
-  } else {
-    // Browser doesn't support Geolocation
-    // handleLocationError(false, infoWindow, map.getCenter());
-    alert('not supported');
+  try {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function (position) {
+        var pos = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
+        };
+        findClosestN(map, bounds, pos, numResults);
+      }, function () {
+        showAllLocations(map, bounds);
+      });
+    } else {
+      showAllLocations(map, bounds);
+    }      
+  } catch (error) {
+    showAllLocations(map, bounds);
   }
+
+}
+
+function showAllLocations(map, bounds) {
+  alert('Sorry, we were unable to find your location, however, here are all the voting locations in your district.');
+  for (i = 0; i < markers.length; i++) {
+    console.log(markers[i].getPosition().lat());
+    markers[i].setMap(map);
+    bounds.extend(new google.maps.LatLng(markers[i].getPosition().lat(), markers[i].getPosition().lng()));
+  }
+  map.fitBounds(bounds);
 }
 
 function findClosestN(map, bounds, pt, numberOfResults) {
   var closest = [];
-  //console.log(markers[1].position.lat());
   pt = new google.maps.LatLng(pt.lat, pt.lng);
   for (var i = 0; i < markers.length; i++) {
     pos = new google.maps.LatLng(markers[i].position.lat(), markers[i].position.lng());
-    // console.log ('user position', pt);
-    // console.log ('marker position', pos);
     markers[i].distance = google.maps.geometry.spherical.computeDistanceBetween(pt, pos);
-    // console.log(markers[i].distance);
     markers[i].setMap(null);
     closest.push(markers[i]);
   }
@@ -134,13 +138,11 @@ function findClosestN(map, bounds, pt, numberOfResults) {
   }));
   const closestArr = closest.splice(0, numberOfResults + 1);
   console.log(closestArr.length);
-  // const bounds = new google.maps.LatLngBounds();
   for (i = 0; i < closestArr.length; i++) {
     console.log(closestArr[i].getPosition().lat());
     closestArr[i].setMap(map);
     bounds.extend(new google.maps.LatLng(closestArr[i].getPosition().lat(), closestArr[i].getPosition().lng()));
   }
-  // console.log(map);
   map.fitBounds(bounds);
   return closestArr;
 }
