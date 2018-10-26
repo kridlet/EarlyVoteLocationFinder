@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Early Vote Locator</title>
+  <style>
+    .map {height: 100%;}
+    html, body {height: 100%; margin: 0; padding: 0;}
+  </style>
+<head>
+<body>
+  <div class="map"></div>
+
+  <script src="app.js"></script>
+  <script async defer
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCGFE5m2tHcm3g7EOjJd5vc_cjmnVaGtlQ&callback=initialize&libraries=geometry">
+  </script>
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-128114135-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-128114135-1');
+  </script>
+
+</body>
+</html>
