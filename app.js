@@ -26,9 +26,6 @@ function getEarlyVotingLocations() {
       case 'az-greenlee':
         filterCounty = 'Greenlee';
         break;
-      case 'az-coconino':
-        filterCounty = 'Coconino';
-        break;
       case 'az-maricopa':
         filterCounty = 'Maricopa';
         break;
@@ -47,7 +44,12 @@ function getEarlyVotingLocations() {
         break;
 
       default:
-        // do something here, error or whatnot...
+      var r = confirm('Sorry, we don\'t have the data for your county. Press OK to go to the Arizona Secretary of State\'s office website.');
+      if (r == true) {
+        window.location = 'https://azsos.gov/elections/voting-election/contact-information-county-election-officials';
+      } else {
+        filterCounty = 'Maricopa';
+      }
     }
   }
   xmlhttp.onreadystatechange = function() {
