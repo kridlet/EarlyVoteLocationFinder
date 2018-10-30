@@ -4,27 +4,57 @@ let customerMarker = null;
 const markers = [];
 let closest = [];
 let earlyVoteLocations;
+let filterCounty;
 
 function getEarlyVotingLocations() {
   let xmlhttp = new XMLHttpRequest();
   let url = 'az.json';
   if (location.host.indexOf('.') > 0) {
-    url = location.host.split('.')[0] + '.json';
-    console.log(url);
+    switch(location.host.split('.')[0].toLowerCase()) {
+      case 'az-cochise':
+        filterCounty = 'Cochise';
+        break;
+      case 'az-coconino':
+        filterCounty = 'Coconino';
+        break;
+      case 'az-gila':
+        filterCounty = 'Gila';
+        break;
+      case 'az-graham':
+        filterCounty = 'Graham';
+        break;
+      case 'az-greenlee':
+        filterCounty = 'Greenlee';
+        break;
+      case 'az-coconino':
+        filterCounty = 'Coconino';
+        break;
+      case 'az-maricopa':
+        filterCounty = 'Maricopa';
+        break;
+      case 'az-navajo':
+        filterCounty = 'Navajo';
+        break;
+      case 'az-santa-cruz':
+        filterCounty = 'Santa Cruz';
+        break;
+
+      case 'az-yavapai':
+        filterCounty = 'Yavapai';
+        break;
+      case 'az-yuma':
+        filterCounty = 'Yuma';
+        break;
+
+      default:
+    }
   }
   xmlhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
-      earlyVoteLocations = JSON.parse(this.responseText);
+      const responseArray = JSON.parse(this.responseText);
+      earlyVoteLocations = responseArray.filter(function(el){ return el[0] == filterCounty });
       initialize();
     }
-    // else {
-    //   console.error('something went wrong loading url ', url);
-    //   if (url != 'az.json') {
-    //     url = 'az.json';
-    //     xmlhttp.open('GET', url, true);
-    //     xmlhttp.send();      
-    //   };
-    // }
   };
   xmlhttp.open('GET', url, true);
   xmlhttp.send();
