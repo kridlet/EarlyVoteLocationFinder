@@ -17,14 +17,14 @@ function getEarlyVotingLocations() {
       earlyVoteLocations = JSON.parse(this.responseText);
       initialize();
     }
-    else {
-      console.error('something went wrong loading url ', url);
-      if (url != 'az.json') {
-        url = 'az.json';
-        xmlhttp.open('GET', url, true);
-        xmlhttp.send();      
-      };
-    }
+    // else {
+    //   console.error('something went wrong loading url ', url);
+    //   if (url != 'az.json') {
+    //     url = 'az.json';
+    //     xmlhttp.open('GET', url, true);
+    //     xmlhttp.send();      
+    //   };
+    // }
   };
   xmlhttp.open('GET', url, true);
   xmlhttp.send();
