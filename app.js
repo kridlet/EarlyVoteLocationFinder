@@ -47,6 +47,7 @@ function getEarlyVotingLocations() {
         break;
 
       default:
+        // do something here, error or whatnot...
     }
   }
   xmlhttp.onreadystatechange = function() {
